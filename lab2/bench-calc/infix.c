@@ -52,7 +52,7 @@ double evaluate_infix_expression(char ** args, int nargs) {
     else if(args[index][0] == '+' || args[index][0] == '-' || 
             args[index][0] == '/' || args[index][0] == 'X' || args[index][0] == '^')
     {
-      while(isEmpty(infix_stack) == 0 && precedence(args[(int)infix_stack->items[infix_stack->top-1]], args[index][0]) == 1 
+      while(isEmpty(infix_stack) == 0 && precedence(args[(int)infix_stack->items[infix_stack->top-1]][0], args[index][0]) == 1 
             && args[(int)infix_stack->items[infix_stack->top-1]][0] != '(') 
       {
           output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
@@ -61,7 +61,7 @@ double evaluate_infix_expression(char ** args, int nargs) {
       double_stack_push(infix_stack, index);
     }
     else if(args[index][0] == ')') {
-      while (args[(int)infix_stack->items[top - 1]][0] != '(') {
+      while (args[(int)infix_stack->items[infix_stack->top - 1]][0] != '(') {
         output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
         output_index++;
       }
