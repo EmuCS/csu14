@@ -46,5 +46,5 @@ double evaluate_postfix_expression(char ** args, int nargs) {
 		}
 		index += 1;//index ++
 	}
-	return double_stack_pop(post_fix_stack);
+	return double_stack_pop(post_fix_stack); //no output string? assignment unclear
 }
