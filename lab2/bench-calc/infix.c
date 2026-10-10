@@ -9,6 +9,7 @@ int isNumber(char ** args, int index) {
     }
     j++;
   }
+  return 1;
 }
 
 int precedence(char op1, char op2)
@@ -23,7 +24,7 @@ int precedence(char op1, char op2)
   if(op2 == '+' || op1 == '-') {op1Val = 0;}
   else if (op1 == 'X' || op1 == '/') {op1Val = 1;}
   else if (op1 == '^'){op1Val = 2;}
-  if (op1  >= op2)
+  if (op1Val  >= op2Val)
   {
     return 1;
   }
@@ -32,43 +33,43 @@ int precedence(char op1, char op2)
 // evaluate expression stored as an array of string tokens
 double evaluate_infix_expression(char ** args, int nargs) {
   // Write your code here
-  char[nargs] output_string;
+  char output_string[nargs];
   int output_index = 0;
   struct double_stack * infix_stack = double_stack_new(nargs);
   
   for(int index = 0; index < nargs; index++)
   {
-    if(isNumber(args[index], index) != 0) 
+    if(isNumber(args, index) != 0) 
     {
       output_string[output_index] = args[index]; //pushes \0 (?)
       output_index++;
     }
     else if(args[index][0] == '(')
     {
-      double_stack_push(infix_stack, args[index][0];
+      double_stack_push(infix_stack, args[index][0]);
     }
     else if(args[index][0] == '+' || args[index][0] == '-' || 
             args[index][0] == '/' || args[index][0] == 'X' || args[index][0] == '^')
     {
-      while(isEmpty(infix_stack) == 0 && precedence(infix_stack[infix_stack->top], args[index][0]) == 1) {
+      while(isEmpty(infix_stack) == 0 && precedence(infix_stack[infix_stack->items], args[index][0]) == 1) {
           output_string[output_index] = double_stack_pop(infix_stack);
           output_index++;
       }
-      double_stack_push(infix_stack, args[index][0];
+      double_stack_push(infix_stack, args[index][0]);
     }
     else if(args[index][0] == ')') {
-      while (infix_stack[infix_stack->top] != ')') {
-        output_string = double_stack_pop(infix_stack);
+      while (infix_stack[infix_stack->items] != ')') {
+        output_string[output_index] = double_stack_pop(infix_stack);
         output_index++;
       }
       char throwaway = double_stack_pop(infix_stack);
     }
   }
   while (isEmpty(infix_stack) != 1){
-    output_string = double_stack_pop(infix_stack);
+    output_string[output_index] = double_stack_pop(infix_stack);
     output_index++;
   } 
-  return evaluate_postfix_expression(output_string; nargs);
+  return evaluate_postfix_expression(output_string, nargs);
 }
 
 
