@@ -3,7 +3,7 @@
 // evaluate expression stored as an array of string tokens
 double evaluate_postfix_expression(char ** args, int nargs) {
   // Write your code here
-	struct double_stack * post_fix_stack = new_double_stack(nargs/2 + 1);
+	struct double_stack * post_fix_stack = double_stack_new(nargs/2 + 1);
 	int index = 0;						//int index = 0
 	int j = 0;						// int j = 0
 	int tokenCount = 0;
