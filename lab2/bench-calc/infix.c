@@ -3,9 +3,9 @@
 int isNumber(char ** args, int index) {
   int j = 0;
   while(args[index][j] != '\0')  {
-    if((args[index][j] < '0' || args[index][j] > '9') && 
-        (args[index][0] == '-' && args[index][1] != '\0') {
-      return 0;
+    if(!((args[index][j] >= '0' && args[index][j] <= '9') ||
+        (args[index][0] == '-' && args[index][1] != '\0')) {
+      return 0
     }
     j++;
   }
@@ -21,9 +21,9 @@ int precedence(char op1, char op2)
   else if (op1 == 'X' || op1 == '/') {op1Val = 1;}
   else if (op1 == '^'){op1Val = 2;}
   
-  if(op2 == '+' || op1 == '-') {op2Val = 0;}
-  else if (op1 == 'X' || op1 == '/') {op2Val = 1;}
-  else if (op1 == '^'){op1Val = 2;}
+  if(op2 == '+' || op2 == '-') {op2Val = 0;}
+  else if (op2 == 'X' || op2 == '/') {op2Val = 1;}
+  else if (op2 == '^'){op2Val = 2;}
   if (op1Val  >= op2Val)
   {
     return 1;
@@ -41,7 +41,7 @@ double evaluate_infix_expression(char ** args, int nargs) {
   {
     if(isNumber(args, index) != 0) 
     {
-      output_string[output_index] = args[index]; //pushes \0 (?)
+      output_string[output_index] = args[index]; 
       output_index++;
     }
     else if(args[index][0] == '(')
@@ -51,14 +51,14 @@ double evaluate_infix_expression(char ** args, int nargs) {
     else if(args[index][0] == '+' || args[index][0] == '-' || 
             args[index][0] == '/' || args[index][0] == 'X' || args[index][0] == '^')
     {
-      while(isEmpty(infix_stack) == 0 && precedence(args[(int)infix_stack[infix_stack->top]], args[index][0]) == 1) {
+      while(isEmpty(infix_stack) == 0 && precedence(args[(int)infix_stack->items[top]][0], args[index][0]) == 1) {
           output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
           output_index++;
       }
       double_stack_push(infix_stack, index);
     }
     else if(args[index][0] == ')') {
-      while (args[(int)infix_stack[infix_stack->items]] != ')') {
+      while (args[(int)infix_stack->items[top]][0] != ')') {
         output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
         output_index++;
       }
