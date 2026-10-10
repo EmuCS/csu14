@@ -3,9 +3,9 @@
 int isNumber(char ** args, int index) {
   int j = 0;
   while(args[index][j] != '\0')  {
-    if(!((args[index][j] >= '0' && args[index][j] <= '9') ||
-        (args[index][0] == '-' && args[index][1] != '\0')) {
-      return 0
+    if((args[index][0] == '+' || args[index][0] == '-' || args[index][0] == 'X' || args[index][0] == '/' || args[index][0] == '^') 
+        && (args[index][1] == '\0')) {
+      return 0;
     }
     j++;
   }
@@ -51,14 +51,16 @@ double evaluate_infix_expression(char ** args, int nargs) {
     else if(args[index][0] == '+' || args[index][0] == '-' || 
             args[index][0] == '/' || args[index][0] == 'X' || args[index][0] == '^')
     {
-      while(isEmpty(infix_stack) == 0 && precedence(args[(int)infix_stack->items[top]][0], args[index][0]) == 1) {
+      while(isEmpty(infix_stack) == 0 && precedence(args[(int)infix_stack->items[top - 1]][0], args[index][0]) == 1 
+            && infix_stack[items->top-1] != '(') 
+      {
           output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
           output_index++;
       }
       double_stack_push(infix_stack, index);
     }
     else if(args[index][0] == ')') {
-      while (args[(int)infix_stack->items[top]][0] != ')') {
+      while (args[(int)infix_stack->items[top - 1]][0] != '(') {
         output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
         output_index++;
       }
