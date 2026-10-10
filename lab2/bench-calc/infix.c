@@ -3,7 +3,8 @@
 int isNumber(char ** args, int index) {
   int j = 0;
   while(args[index][j] != '\0')  {
-    if((args[index][0] == '+' || args[index][0] == '-' || args[index][0] == 'X' || args[index][0] == '/' || args[index][0] == '^') 
+    if((args[index][0] == '+' || args[index][0] == '-' || args[index][0] == 'X' || args[index][0] == '/' || args[index][0] == '^'
+        || args[index][0] == '(' || args[index][0] == ')') 
         && (args[index][1] == '\0')) {
       return 0;
     }
@@ -51,8 +52,8 @@ double evaluate_infix_expression(char ** args, int nargs) {
     else if(args[index][0] == '+' || args[index][0] == '-' || 
             args[index][0] == '/' || args[index][0] == 'X' || args[index][0] == '^')
     {
-      while(isEmpty(infix_stack) == 0 && precedence(args[(int)infix_stack->items[top - 1]][0], args[index][0]) == 1 
-            && infix_stack[items->top-1] != '(') 
+      while(isEmpty(infix_stack) == 0 && precedence(args[(int)infix_stack->items[infix_stack->top-1]], args[index][0]) == 1 
+            && args[(int)infix_stack->items[infix_stack->top-1]][0] != '(') 
       {
           output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
           output_index++;
@@ -71,7 +72,7 @@ double evaluate_infix_expression(char ** args, int nargs) {
     output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
     output_index++;
   } 
-  return evaluate_postfix_expression(output_string, sizeof(output_string));
+  return evaluate_postfix_expression(output_string, output_index);
 }
 
 
