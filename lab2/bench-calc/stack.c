@@ -32,3 +32,9 @@ double double_stack_pop(struct double_stack * this) {
 		return -1;
 	}
 }
+
+int isEmpty(struct double_stack * this);
+{
+	if(this->top == 0){return 1;}
+	else{return 0;}
+}
