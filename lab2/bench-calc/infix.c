@@ -4,7 +4,7 @@ int isNumber(char ** args, int index) {
   int j = 0;
   while(args[index][j] != '\0')  {
     if((args[index][j] < '0' || args[index][j] > '9') && 
-        (args[index][0] != '-' && args[index][1] == '\0')) {
+        (args[index][0] == '-' && args[index][1] != '\0') {
       return 0;
     }
     j++;
@@ -21,8 +21,8 @@ int precedence(char op1, char op2)
   else if (op1 == 'X' || op1 == '/') {op1Val = 1;}
   else if (op1 == '^'){op1Val = 2;}
   
-  if(op2 == '+' || op1 == '-') {op1Val = 0;}
-  else if (op1 == 'X' || op1 == '/') {op1Val = 1;}
+  if(op2 == '+' || op1 == '-') {op2Val = 0;}
+  else if (op1 == 'X' || op1 == '/') {op2Val = 1;}
   else if (op1 == '^'){op1Val = 2;}
   if (op1Val  >= op2Val)
   {
@@ -51,22 +51,22 @@ double evaluate_infix_expression(char ** args, int nargs) {
     else if(args[index][0] == '+' || args[index][0] == '-' || 
             args[index][0] == '/' || args[index][0] == 'X' || args[index][0] == '^')
     {
-      while(isEmpty(infix_stack) == 0 && precedence(args[infix_stack[infix_stack->top]][0], args[index][0]) == 1) {
-          output_string[output_index] = args[double_stack_pop(infix_stack)];
+      while(isEmpty(infix_stack) == 0 && precedence(args[(int)infix_stack[infix_stack->top]], args[index][0]) == 1) {
+          output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
           output_index++;
       }
       double_stack_push(infix_stack, index);
     }
     else if(args[index][0] == ')') {
-      while (args[infix_stack[infix_stack->items]][0] != ')') {
-        output_string[output_index] = double_stack_pop(infix_stack);
+      while (args[(int)infix_stack[infix_stack->items]] != ')') {
+        output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
         output_index++;
       }
-      char throwaway = args[double_stack_pop(infix_stack)];
+      double_stack_pop(infix_stack);
     }
   }
   while (isEmpty(infix_stack) != 1){
-    output_string[output_index] = args[double_stack_pop(infix_stack)];
+    output_string[output_index] = args[(int)double_stack_pop(infix_stack)];
     output_index++;
   } 
   return evaluate_postfix_expression(output_string, nargs);
