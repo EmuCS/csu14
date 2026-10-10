@@ -4,7 +4,7 @@ int isNumber(char ** args, int index) {
   int j = 0;
   while(args[index][j] != '\0')  {
     if((args[index][j] < '0' || args[index][j] > '9') && 
-        (args[index][0] == '-' && args[index][1] == '\0')) {
+        (args[index][0] != '-' && args[index][1] == '\0')) {
       return 0;
     }
     j++;
