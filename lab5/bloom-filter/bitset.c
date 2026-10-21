@@ -14,7 +14,16 @@ static struct bitset * dummy_pointer_value = NULL;
 // create a new, empty bit vector set with a universe of 'size' items
 struct bitset * bitset_new(int size) {
   // delete the next line when you write your own code here
-  return dummy_pointer_value;
+	struct bitset * result;
+	result = malloc(sizeof(struct bitset));
+	size_in_words = size/64;
+	if(size%64!=0) {
+		size_in_words++;
+	}
+	result -> size_in_words = size_in_words;
+	result ->  universe_size = size;
+	result -> bits = malloc(sizeof(uin64_t * size_in_words))
+	return result;
 }
 
 // get the size of the universe of items that could be stored in the set
@@ -32,16 +41,25 @@ int bitset_cardinality(struct bitset * this){
 // check to see if an item is in the set
 int bitset_lookup(struct bitset * this, int item){
   // delete the next line when you write your own code here
-  return dummy_integer_value;
+	for(int index = 0; index < bitset_size(this); index++)
+	{
+		if(this[index] == item){return 1;}
+	}
+	return 0;
 }
 
 // add an item, with number 'item' to the set
 // has no effect if the item is already in the set
 void bitset_add(struct bitset * this, int item) {
+	if(bitset_lookup(this, item) == 1; {return;}
+	else {
+		this[size(this)-1] = item;
+	}
 }
 
 // remove an item with number 'item' from the set
 void bitset_remove(struct bitset * this, int item) {
+	
 }
 
 // place the union of src1 and src2 into dest;
