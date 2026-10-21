@@ -9,12 +9,12 @@
 
 // define constant dummy values to avoid compiler warnings
 static const int dummy_integer_value = -99;
-static struct bitset * dummy_pointer_value = NULL;
+//static struct bitset * dummy_pointer_value = NULL;
 
 // create a new, empty bit vector set with a universe of 'size' items
 struct bitset * bitset_new(int size) {
   // delete the next line when you write your own code here
-	struct bitset * result; 
+	struct bitset * result;
 	result = malloc(sizeof(struct bitset));
 	int size_in_words = size/64;
 	if(size%64!=0) {
@@ -22,44 +22,36 @@ struct bitset * bitset_new(int size) {
 	}
 	result -> size_in_words = size_in_words;
 	result -> universe_size = size;
-	result -> bits = malloc(sizeof(uint64_t * size_in_words));
+	result -> bits = malloc(sizeof(uint64_t) * size_in_words);
 	return result;
 }
 
 // get the size of the universe of items that could be stored in the set
 int bitset_size(struct bitset * this) {
   // delete the next line when you write your own code here
-  return dummy_integer_value;
+  return this->universe_size;
 }
 
 // get the number of items that are stored in the set
 int bitset_cardinality(struct bitset * this){
   // delete the next line when you write your own code here
-  return dummy_integer_value;
+  return this->size_in_words;
 }
 
 // check to see if an item is in the set
 int bitset_lookup(struct bitset * this, int item){
   // delete the next line when you write your own code here
-	for(int index = 0; index < bitset_size(this); index++)
-	{
-		if(this[index] == item){return 1;}
-	}
-	return 0;
+	return dummy_integer_value;
 }
 
 // add an item, with number 'item' to the set
 // has no effect if the item is already in the set
 void bitset_add(struct bitset * this, int item) {
-	if(bitset_lookup(this, item) == 1; {return;}
-	else {
-		this[size(this)-1] = item;
-	}
+
 }
 
 // remove an item with number 'item' from the set
 void bitset_remove(struct bitset * this, int item) {
-	
 }
 
 // place the union of src1 and src2 into dest;
