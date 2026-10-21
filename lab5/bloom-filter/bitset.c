@@ -14,15 +14,15 @@ static struct bitset * dummy_pointer_value = NULL;
 // create a new, empty bit vector set with a universe of 'size' items
 struct bitset * bitset_new(int size) {
   // delete the next line when you write your own code here
-	struct bitset * result;
+	struct bitset * result; 
 	result = malloc(sizeof(struct bitset));
-	size_in_words = size/64;
+	int size_in_words = size/64;
 	if(size%64!=0) {
 		size_in_words++;
 	}
 	result -> size_in_words = size_in_words;
-	result ->  universe_size = size;
-	result -> bits = malloc(sizeof(uin64_t * size_in_words))
+	result -> universe_size = size;
+	result -> bits = malloc(sizeof(uint64_t * size_in_words));
 	return result;
 }
 
