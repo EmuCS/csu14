@@ -43,7 +43,6 @@ int main(int argc, char ** argv) {
   }
   else {
     // command line has enough parameters for an expression
-    double result;
     if ( strcmp(argv[1], "stack") == 0 ) {
       // pass the command line parameters, but with the first two removed
       test_stack(argc - 2, argv + 2);
