@@ -23,6 +23,10 @@ struct bitset * bitset_new(int size) {
 	result -> size_in_words = size_in_words;
 	result -> universe_size = size;
 	result -> bits = malloc(sizeof(uint64_t) * size_in_words);
+	for(int index = 0; index < result->size_in_words; index++)
+	{
+		result->bits[index] = 0;
+	}
 	return result;
 }
 
@@ -43,7 +47,7 @@ int bitset_lookup(struct bitset * this, int item){
   // delete the next line when you write your own code here
 	int word = item / 64;
 	int bit = item % 64;
-	int mask = 1ULL << bit;
+	uint64_t mask = 1ULL << bit;
 	if(item > this->universe_size || item < 0){return -1;}
 	else {
 		if ((this->bits[word] & mask) == mask){return 1;}
@@ -58,7 +62,7 @@ void bitset_add(struct bitset * this, int item) {
 	else{
 		int word = item / 64;
 		int bit = item % 64;
-		int mask = 1ULL << bit;
+		uint64_t mask = 1ULL << bit;
 		if(item < 0 || item > this->universe_size){return;}
 		else {
 			this->bits[word] = this->bits[word] | mask;
@@ -72,7 +76,7 @@ void bitset_remove(struct bitset * this, int item) {
 	else{
 		int word = item / 64;
 		int bit = item % 64;
-		int mask = 1ULL << bit;
+		uint64_t mask = 1ULL << bit;
 		mask = ~mask;
 		if(item < 0 || item > this->universe_size){return;}
 		else {
@@ -91,7 +95,7 @@ void bitset_union(struct bitset * dest, struct bitset * src1,
 		{
 			int word = index / 64;
 			int bit = index % 64;
-			int mask = 1ULL << bit;
+			uint64_t mask = 1ULL << bit;
 			if ((src1->bits[word] & mask) == mask || (src2->bits[word] & mask) == mask)
 			{
 				dest->bits[word] = dest->bits[word] | mask;
@@ -110,7 +114,7 @@ void bitset_intersect(struct bitset * dest, struct bitset * src1,
 		{
 			int word = index / 64;
 			int bit = index % 64;
-			int mask = 1ULL << bit;
+			uint64_t mask = 1ULL << bit;
 			if ((src1->bits[word] & mask) == mask && (src2->bits[word] & mask) == mask)
 			{
 				dest->bits[word] = dest->bits[word] | mask;
