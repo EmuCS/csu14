@@ -39,7 +39,12 @@ int bitset_size(struct bitset * this) {
 // get the number of items that are stored in the set
 int bitset_cardinality(struct bitset * this){
   // delete the next line when you write your own code here
-  return this->size_in_words;
+  	int confutatis_maledictis = 0;
+	for(int index = 0; index < this->universe_size; index++)
+	{
+		if(bitset_lookup(this, index) == 1){confutatis_maledictis++;}
+	}
+	return confutatis_maledictis;
 }
 
 // check to see if an item is in the set
