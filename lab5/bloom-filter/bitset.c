@@ -8,7 +8,7 @@
 #include <assert.h>
 
 // define constant dummy values to avoid compiler warnings
-static const int dummy_integer_value = -99;
+// static const int dummy_integer_value = -99;
 //static struct bitset * dummy_pointer_value = NULL;
 
 // create a new, empty bit vector set with a universe of 'size' items
@@ -41,13 +41,20 @@ int bitset_cardinality(struct bitset * this){
 // check to see if an item is in the set
 int bitset_lookup(struct bitset * this, int item){
   // delete the next line when you write your own code here
-	return dummy_integer_value;
+	int word = item / 64;
+	int bit = item % 64;
+	int mask = 1ULL << bit;
+	if(item > this->universe_size || item < 0){return -1;}
+	else {
+		if ((this->bits[word] & mask) == mask){return 1;}
+		else{return 0;}
+	}
 }
 
 // add an item, with number 'item' to the set
 // has no effect if the item is already in the set
 void bitset_add(struct bitset * this, int item) {
-
+	
 }
 
 // remove an item with number 'item' from the set
@@ -64,4 +71,5 @@ void bitset_union(struct bitset * dest, struct bitset * src1,
 // all of src1, src2, and dest must have the same size universe
 void bitset_intersect(struct bitset * dest, struct bitset * src1,
     struct bitset * src2) {
+	
 }
