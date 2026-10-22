@@ -54,22 +54,67 @@ int bitset_lookup(struct bitset * this, int item){
 // add an item, with number 'item' to the set
 // has no effect if the item is already in the set
 void bitset_add(struct bitset * this, int item) {
-	
+	if(bitset_lookup(this, item) == 1){return;}
+	else{
+		int word = item / 64;
+		int bit = item % 64;
+		int mask = 1ULL << bit;
+		if(item < 0 || item > this->universe_size){return;}
+		else {
+			this->bits[word] = this->bits[word] | mask;
+		}
+	}
 }
 
 // remove an item with number 'item' from the set
 void bitset_remove(struct bitset * this, int item) {
+	if(bitset_lookup(this, item) == 0){return;}
+	else{
+		int word = item / 64;
+		int bit = item % 64;
+		int mask = 1ULL << bit;
+		mask = ~mask;
+		if(item < 0 || item > this->universe_size){return;}
+		else {
+			this->bits[word] = this->bits[word] & mask;
+		}
+	}
 }
 
 // place the union of src1 and src2 into dest;
 // all of src1, src2, and dest must have the same size universe
 void bitset_union(struct bitset * dest, struct bitset * src1,
     struct bitset * src2) {
+	if(dest->universe_size == src1->universe_size && dest->universe_size == src2->universe_size)
+	{
+		for(int index = 0; index < dest->universe_size; index++)
+		{
+			int word = index / 64;
+			int bit = index % 64;
+			int mask = 1ULL << bit;
+			if ((src1->bits[word] & mask) == mask || (src2->bits[word] & mask) == mask)
+			{
+				dest->bits[word] = dest->bits[word] | mask;
+			}
+		}
+	}
 }
 
 // place the intersection of src1 and src2 into dest
 // all of src1, src2, and dest must have the same size universe
 void bitset_intersect(struct bitset * dest, struct bitset * src1,
     struct bitset * src2) {
-	
+	if(dest->universe_size == src1->universe_size && dest->universe_size == src2->universe_size)
+	{
+		for(int index = 0; index < bitset_size(dest); index++)
+		{
+			int word = index / 64;
+			int bit = index % 64;
+			int mask = 1ULL << bit;
+			if ((src1->bits[word] & mask) == mask && (src2->bits[word] & mask) == mask)
+			{
+				dest->bits[word] = dest->bits[word] | mask;
+			}
+		}
+	}
 }
