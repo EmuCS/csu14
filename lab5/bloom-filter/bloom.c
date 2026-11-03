@@ -9,7 +9,6 @@
 
 // define constant dummy values to avoid compiler warnings
 static const int dummy_integer_value = -99;
-static struct bloom * dummy_pointer_value = NULL;
 
 const int BLOOM_HASH1 = 17;
 const int BLOOM_HASH2 = 29;
@@ -35,6 +34,10 @@ int hash_string(char * string, int seed, int range)
   return hash;
 }
 
+int bloom_size(struct bloom * this)
+{
+	return this -> size;
+}
 
 // create a new, empty Bloom filter of 'size' items
 struct bloom * bloom_new(int size) {
@@ -42,8 +45,8 @@ struct bloom * bloom_new(int size) {
   	struct bloom * result;
 	result = malloc(sizeof(struct bloom));
 	result -> size = size;
-	result -> bitset = bitset_new(size));
-	return result dummy_pointer_value;
+	result -> bitset = bitset_new(size);
+	return result;
 }
 
 // check to see if a string is in the set

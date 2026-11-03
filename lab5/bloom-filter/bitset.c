@@ -53,7 +53,7 @@ int bitset_lookup(struct bitset * this, int item){
 	int word = item / 64;
 	int bit = item % 64;
 	uint64_t mask = 1ULL << bit;
-	if(item > this->universe_size || item < 0){return -1;}
+	if(item >= this->universe_size || item < 0){return -1;}
 	else {
 		if ((this->bits[word] & mask) == mask){return 1;}
 		else{return 0;}
@@ -68,7 +68,7 @@ void bitset_add(struct bitset * this, int item) {
 		int word = item / 64;
 		int bit = item % 64;
 		uint64_t mask = 1ULL << bit;
-		if(item < 0 || item > this->universe_size){return;}
+		if(item < 0 || item >= this->universe_size){return;}
 		else {
 			this->bits[word] = this->bits[word] | mask;
 		}
@@ -83,7 +83,7 @@ void bitset_remove(struct bitset * this, int item) {
 		int bit = item % 64;
 		uint64_t mask = 1ULL << bit;
 		mask = ~mask;
-		if(item < 0 || item > this->universe_size){return;}
+		if(item < 0 || item >= this->universe_size){return;}
 		else {
 			this->bits[word] = this->bits[word] & mask;
 		}
