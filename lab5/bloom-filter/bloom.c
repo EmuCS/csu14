@@ -53,8 +53,8 @@ int bloom_lookup(struct bloom * this, char * item) {
   // delete the next line when you write your own code here
   	int hash0 = hash_string(item, BLOOM_HASH1, this->size);
 	int hash1 = hash_string(item, BLOOM_HASH2, this->size);
-	if(bitset_lookup(this->bitset, hash0) == 1) {return 1;}
-	if(bitset_lookup(this->bitset, hash1) == 1) {return 1;}
+	if(bitset_lookup(this->bitset, hash0) == 1 &&
+	  (bitset_lookup(this->bitset, hash1) == 1)) {return 1;}
 	return 0;
 }
 
@@ -70,10 +70,11 @@ void bloom_add(struct bloom * this, char * item) {
 // place the union of src1 and src2 into dest
 void bloom_union(struct bloom * dest, struct bloom * src1,
     struct bloom * src2) {
-	
+	bitset_union(dest->bitset, src1->bitset, src2->bitset);
 }
 
 // place the intersection of src1 and src2 into dest
 void bloom_intersect(struct bloom * dest, struct bloom * src1,
     struct bloom * src2) {
+	bitset_intersect(dest->bitset, src1->bitset, src2->bitset);
 }
