@@ -8,7 +8,6 @@
 #include <assert.h>
 
 // define constant dummy values to avoid compiler warnings
-static const int dummy_integer_value = -99;
 
 const int BLOOM_HASH1 = 17;
 const int BLOOM_HASH2 = 29;
@@ -52,17 +51,26 @@ struct bloom * bloom_new(int size) {
 // check to see if a string is in the set
 int bloom_lookup(struct bloom * this, char * item) {
   // delete the next line when you write your own code here
-  return dummy_integer_value;
+  	int hash0 = hash_string(item, BLOOM_HASH1, this->size);
+	int hash1 = hash_string(item, BLOOM_HASH2, this->size);
+	if(bitset_lookup(this->bitset, hash0) == 1) {return 1;}
+	if(bitset_lookup(this->bitset, hash1) == 1) {return 1;}
+	return 0;
 }
 
 // add a string to the set
 // has no effect if the item is already in the set
 void bloom_add(struct bloom * this, char * item) {
+	int hash0 = hash_string(item, BLOOM_HASH1, this->size);
+	int hash1 = hash_string(item, BLOOM_HASH2, this->size);
+	bitset_add(this->bitset, hash0);
+	bitset_add(this->bitset, hash1);
 }
 
 // place the union of src1 and src2 into dest
 void bloom_union(struct bloom * dest, struct bloom * src1,
     struct bloom * src2) {
+	
 }
 
 // place the intersection of src1 and src2 into dest
