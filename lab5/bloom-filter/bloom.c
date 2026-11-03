@@ -39,7 +39,11 @@ int hash_string(char * string, int seed, int range)
 // create a new, empty Bloom filter of 'size' items
 struct bloom * bloom_new(int size) {
   // delete the next line when you write your own code here
-  return dummy_pointer_value;
+  	struct bloom * result;
+	result = malloc(sizeof(struct bloom));
+	result -> size = size;
+	result -> bitset = bitset_new(size));
+	return result dummy_pointer_value;
 }
 
 // check to see if a string is in the set
