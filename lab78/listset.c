@@ -18,18 +18,18 @@ struct listset * listset_new() {
    returns 1 if in the set, 0 if not */
 int listset_lookup(struct listset * this, char * item) {
 	struct listnode * element = this -> head;
-	while(element -> next != NULL)
+	while(element -> next != NULL && this -> head != NULL)
 	{
 		int index = 0;
 		while(strlen(element->str) == strlen(item)
 			&& element->str[index] == item[index])
 		{
-			index++;
 			if(element->str[index] == '\0'
 				&& item[index] == '\0')
 			{
 				return 1;
 			}
+			index++;
 		}
 		element = element -> next;
 	}
