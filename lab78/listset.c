@@ -10,14 +10,14 @@ struct listset * listset_new() {
 	struct listset * result;
 	result = malloc(sizeof(struct listset));
 	result -> head = malloc(sizeof(struct listnode));
-	result -> head = NULL
+	result -> head = NULL;
 	return result;
 }
 
 /* check to see if an item is in the set
    returns 1 if in the set, 0 if not */
 int listset_lookup(struct listset * this, char * item) {
-	struct listnode element = this -> head;
+	struct listnode * element = this -> head;
 	while(element -> next != NULL)
 	{
 		int index = 0;
@@ -49,9 +49,9 @@ void listset_add(struct listset * this, char * item) {
 void listset_remove(struct listset * this, char * item) {
 	if(listset_lookup(this, item) == 0)
 	{
-		struct listnode prevElement = NULL;
-		struct listNode element = this -> head;
-		struct listNode nextElement = element -> next;
+		struct listnode * prevElement = NULL;
+		struct listnode * element = this -> head;
+		struct listnode * nextElement = element -> next;
 		while(element -> next != NULL)
 		{
 			int index = 0;
