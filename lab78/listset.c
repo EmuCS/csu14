@@ -64,14 +64,21 @@ void listset_remove(struct listset * this, char * item) {
 				if(element->str[index] == '\0'
 					&& item[index] == '\0')
 				{
-					if (prevElement == NULL)
+					if (prevElement == NULL && nextElement == NULL)
+					{
+						this -> head = NULL;
+						return;
+					}
+					else if (prevElement == NULL)
 					{
 						this -> head = nextElement;
+						return;
 					}
 					else if (nextElement == NULL)
 					{
 						prevElement -> next = NULL;
 						element = NULL;
+						return;
 					}
 					else
 					{
@@ -83,8 +90,8 @@ void listset_remove(struct listset * this, char * item) {
 				index++;
 			}
 			prevElement = element;
-			nextElement = nextElement -> next;
 			element = nextElement;
+			nextElement = element -> next;
 		}
 	}
 }
