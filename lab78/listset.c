@@ -7,17 +7,71 @@
 #include "listset.h"
 
 struct listset * listset_new() {
+	struct listset * result;
+	result = malloc(sizeof(struct listset));
+	result -> head = malloc(sizeof(struct listnode));
+	result -> head = NULL
+	return result;
 }
 
 /* check to see if an item is in the set
    returns 1 if in the set, 0 if not */
 int listset_lookup(struct listset * this, char * item) {
+	struct listnode element = this -> head;
+	while(element -> next != NULL)
+	{
+		int index = 0;
+		while(strlen(element->str) == strlen(item)
+			&& element->str[index] == item[index])
+		{
+			index++;
+			if(element->str[index] == '\0'
+				&& item[index] == '\0')
+			{
+				return 1;
+			}
+		}
+		element = element -> next;
+	}
+	return 0;
 }
 
 void listset_add(struct listset * this, char * item) {
+	if(listset_lookup(this, item) == 0)
+	{
+		struct listnode * newHead = malloc(sizeof(struct listnode));
+		newHead -> str = item;
+		newHead -> next = this -> head;
+		this -> head = newHead;
+	}
 }
 
 void listset_remove(struct listset * this, char * item) {
+	if(listset_lookup(this, item) == 0)
+	{
+		struct listnode prevElement = NULL;
+		struct listNode element = this -> head;
+		struct listNode nextElement = element -> next;
+		while(element -> next != NULL)
+		{
+			int index = 0;
+			while(strlen(element->str) == strlen(item)
+				&& element->str[index] == item[index])
+			{
+				index++;
+				if(element->str[index] == '\0'
+					&& item[index] == '\0')
+				{
+					prevElement -> next = nextElement;
+					element = NULL;
+					return;
+				}
+			}
+			prevElement = element;
+			nextElement = nextElement -> next;
+			element = nextElement;
+		}
+	}
 }
 
 // place the union of src1 and src2 into dest
