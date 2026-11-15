@@ -100,7 +100,8 @@ void listset_remove(struct listset * this, char * item) {
 struct listnode * listset_findnode(struct listset * this, char * item)
 {
 	struct listnode * element = this -> head;
-	while(element != NULL)
+	int finished = 0;
+	while(element != NULL && finished != 1)
 	{
 		int index = 0;
 		while(strlen(element->str) == strlen(item)
@@ -109,13 +110,15 @@ struct listnode * listset_findnode(struct listset * this, char * item)
 			if(element->str[index] == '\0'
 				&& item[index] == '\0')
 			{
-				return element;
+				finished = 1;
 			}
 			index++;
 		}
 		element = element -> next;
 	}
+	return element;
 }
+
 // place the union of src1 and src2 into dest
 void listset_union(struct listset * dest, struct listset * src1,
   struct listset * src2) {
