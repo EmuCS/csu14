@@ -158,6 +158,7 @@ int listset_cardinality(struct listset * this) {
 		cardinality ++;
 		element = element -> next;
 	}
+	return cardinality;
 }
 
 // print the elements of the list set
