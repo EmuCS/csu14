@@ -1,5 +1,5 @@
 // simple C program that contains a hash table for strings
-// David Gregg, November 2020                            
+// David Gregg, November 2020
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,7 +34,14 @@ int hash_string(char * string, int range)
 // create a new empty hashtable
 struct hashtable * hashtable_new(int size)
 {
-
+	struct hashtable * result = malloc(sizeof(struct hashtable));
+	result -> table = malloc(size * sizeof(struct listset*));
+	result -> size = size;
+	for(int i = 0; i<size; i++)
+	{
+		result -> table[i] = listset_new();
+	}
+	return result;
 }
 
 // add an item to the hashtable
@@ -46,7 +53,7 @@ void hashtable_add(struct hashtable * this, char * item)
 // return 1 if item is in hashtable, 0 otherwise
 int hashtable_lookup(struct hashtable * this, char * item)
 {
-
+	return 1;
 }
 
 // remove an item from the hash table; if the item is in the table
