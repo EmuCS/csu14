@@ -96,18 +96,68 @@ void listset_remove(struct listset * this, char * item) {
 	}
 }
 
+// assumes element is contained, returns this element
+struct listnode * listset_findnode(struct listset * this, char * item)
+{
+	struct listnode * element = this -> head;
+	while(element != NULL)
+	{
+		int index = 0;
+		while(strlen(element->str) == strlen(item)
+			&& element->str[index] == item[index])
+		{
+			if(element->str[index] == '\0'
+				&& item[index] == '\0')
+			{
+				return element;
+			}
+			index++;
+		}
+		element = element -> next;
+	}
+}
 // place the union of src1 and src2 into dest
 void listset_union(struct listset * dest, struct listset * src1,
   struct listset * src2) {
+	struct listnode * element = src1 -> head;
+	while(element != NULL) {
+		if(listset_lookup(src2, element->str) == 0)
+		{
+			listset_add(dest, listset_findnode(src1, element->str)->str);
+		}
+		element = element -> next;
+	}
+
+	element = src2 -> head;
+	while(element != NULL) {
+		if(listset_lookup(src1, element->str) == 0)
+		{
+			listset_add(dest, listset_findnode(src2, element->str)->str);
+		}
+		element = element -> next;
+	}
 }
 
 // place the intersection of src1 and src2 into dest
 void listset_intersect(struct listset * dest, struct listset * src1,
   struct listset * src2) {
+	struct listnode * element = src1 -> head;
+	while(element != NULL) {
+		if(listset_lookup(src2, element->str) == 1)
+		{
+			listset_add(dest, listset_findnode(src2, element->str)->str);
+		}
+	}
 }
 
 // return the number of items in the listset
 int listset_cardinality(struct listset * this) {
+	int cardinality = 0;
+	struct listnode * element = this -> head;
+        while(element != NULL){
+		cardinality ++;
+		element = element -> next;
+	}
 }
 
 // print the elements of the list set
