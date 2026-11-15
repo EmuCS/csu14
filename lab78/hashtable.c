@@ -47,20 +47,23 @@ struct hashtable * hashtable_new(int size)
 // add an item to the hashtable
 void hashtable_add(struct hashtable * this, char * item)
 {
-
+	int hash = hash_string(item, this->size);
+	listset_add(this->table[hash], item);
 }
 
 // return 1 if item is in hashtable, 0 otherwise
 int hashtable_lookup(struct hashtable * this, char * item)
 {
-	return 1;
+	int hash = hash_string(item, this->size);
+	return listset_lookup(this->table[hash], item);
 }
 
 // remove an item from the hash table; if the item is in the table
 // multiple times, just remove the first one that we encounter
 void hashtable_remove(struct hashtable * this, char * item)
 {
-
+	int hash = hash_string(item, this->size);
+	listset_remove(this->table[hash], item);
 }
 
 // print the elements of the hashtable set
