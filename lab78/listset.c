@@ -50,25 +50,37 @@ void listset_add(struct listset * this, char * item) {
 }
 
 void listset_remove(struct listset * this, char * item) {
-	if(listset_lookup(this, item) == 0)
+	if(listset_lookup(this, item) == 1)
 	{
 		struct listnode * prevElement = NULL;
 		struct listnode * element = this -> head;
 		struct listnode * nextElement = element -> next;
-		while(element -> next != NULL)
+		while(element != NULL)
 		{
 			int index = 0;
 			while(strlen(element->str) == strlen(item)
 				&& element->str[index] == item[index])
 			{
-				index++;
 				if(element->str[index] == '\0'
 					&& item[index] == '\0')
 				{
-					prevElement -> next = nextElement;
-					element = NULL;
-					return;
+					if (prevElement == NULL)
+					{
+						this -> head = nextElement;
+					}
+					else if (nextElement == NULL)
+					{
+						prevElement -> next = NULL;
+						element = NULL;
+					}
+					else
+					{
+						prevElement -> next = nextElement;
+						element = NULL;
+						return;
+					}
 				}
+				index++;
 			}
 			prevElement = element;
 			nextElement = nextElement -> next;
