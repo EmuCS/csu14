@@ -17,21 +17,24 @@ struct listset * listset_new() {
 /* check to see if an item is in the set
    returns 1 if in the set, 0 if not */
 int listset_lookup(struct listset * this, char * item) {
-	struct listnode * element = this -> head;
-	while(element -> next != NULL && this -> head != NULL)
+	if(this -> head != NULL)
 	{
-		int index = 0;
-		while(strlen(element->str) == strlen(item)
-			&& element->str[index] == item[index])
+		struct listnode * element = this -> head;
+		while(element != NULL)
 		{
-			if(element->str[index] == '\0'
-				&& item[index] == '\0')
+			int index = 0;
+			while(strlen(element->str) == strlen(item)
+				&& element->str[index] == item[index])
 			{
-				return 1;
+				if(element->str[index] == '\0'
+					&& item[index] == '\0')
+				{
+					return 1;
+				}
+				index++;
 			}
-			index++;
+			element = element -> next;
 		}
-		element = element -> next;
 	}
 	return 0;
 }
